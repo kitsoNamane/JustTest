@@ -7,6 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities
 import java.net.URL
 import java.util.concurrent.TimeUnit
 
+/// [AppiumAndroidConfig] here implements the Singleton Pattern.
 object AppiumAndroidConfig {
     var driver: AndroidDriver<AndroidElement>
 
@@ -22,7 +23,7 @@ object AppiumAndroidConfig {
     }
 
     fun await(timeDelay: Long = 3) {
-        AppiumAndroidConfig.driver?.let {
+        AppiumAndroidConfig.driver.let {
             it.manage()?.timeouts()?.implicitlyWait(timeDelay, TimeUnit.SECONDS)
         }
     }

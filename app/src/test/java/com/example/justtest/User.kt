@@ -5,5 +5,4 @@ object User {
     const val password: String = "12345678abc"
     const val phone: String = "75 757 459"
     const val formattedPhone: String = "75 757 459"
-
 }
