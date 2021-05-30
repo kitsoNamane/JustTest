@@ -23,7 +23,7 @@ object AppiumAndroidConfig {
     }
 
     fun await(timeDelay: Long = 3) {
-        AppiumAndroidConfig.driver.let {
+        driver.let {
             it.manage()?.timeouts()?.implicitlyWait(timeDelay, TimeUnit.SECONDS)
         }
     }

@@ -83,14 +83,14 @@ class LetshegoLoginUnitTest : LetshegoBaseUnitTest() {
         Assert.assertEquals(onboardingActivity, AppiumAndroidConfig.driver.currentActivity())
     }
 
-    fun gotoLogin() {
+    private fun gotoLogin() {
         val toLoginButton: MobileElement = AppiumAndroidConfig
             .driver.findElement(By.id("com.letshego.dasdigital:id/tv_login"))
         toLoginButton.click()
         println(AppiumAndroidConfig.driver.currentActivity().toString())
     }
 
-    fun inputEmailAndPassword(email: String, password: String) {
+    private fun inputEmailAndPassword(email: String, password: String) {
         // go to login screen
         // TODO: Test if successful
         gotoLogin()
@@ -122,7 +122,7 @@ class LetshegoLoginUnitTest : LetshegoBaseUnitTest() {
         }
     }
 
-    fun goToPasswordReset() {
+    private fun goToPasswordReset() {
         gotoLogin()
         val toPasswordResetButton: MobileElement = AppiumAndroidConfig
             .driver.findElement(By.id("com.letshego.dasdigital:id/tv_reset_password"))

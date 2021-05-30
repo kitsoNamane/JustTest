@@ -6,7 +6,7 @@ import org.junit.Test
 import org.openqa.selenium.By
 
 class LetshegoSignUpUnitTest : LetshegoBaseUnitTest() {
-    fun gotoSignUp() {
+    private fun gotoSignUp() {
         val toSignupButton: MobileElement = AppiumAndroidConfig
             .driver.findElement(By.id("com.letshego.dasdigital:id/fab_sign_up"))
         toSignupButton.click()
