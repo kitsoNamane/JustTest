@@ -21,6 +21,7 @@ class LetshegoSignUpUnitTest : LetshegoBaseUnitTest() {
             .driver.findElement(By.id("com.letshego.dasdigital:id/fab_verify"))
         Assert.assertEquals(verifyButton.isEnabled, false)
 
+        val currentActivity = AppiumAndroidConfig.driver.currentActivity()
         // Test Phone Field
         val phoneField: MobileElement = AppiumAndroidConfig
             .driver.findElement(By.id("com.letshego.dasdigital:id/et_phone_num"))
@@ -44,14 +45,19 @@ class LetshegoSignUpUnitTest : LetshegoBaseUnitTest() {
         Assert.assertEquals(termsAndConditionsField.isEnabled, true)
         Assert.assertEquals(verifyButton.isEnabled, true)
 
+
+        // Test verification process
         verifyButton.click()
         AppiumAndroidConfig.await(3)
+        Assert.assertNotEquals(currentActivity, AppiumAndroidConfig.driver.currentActivity())
     }
 
     @Test fun cancelSignUp() {
         gotoSignUp()
+        val currentActivity = AppiumAndroidConfig.driver.currentActivity()
         val cancelButton: MobileElement = AppiumAndroidConfig
             .driver.findElement(By.id("com.letshego.dasdigital:id/imv_close"))
         cancelButton.click()
+        Assert.assertEquals(currentActivity, AppiumAndroidConfig.driver.currentActivity())
     }
 }
