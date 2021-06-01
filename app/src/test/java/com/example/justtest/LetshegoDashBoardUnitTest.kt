@@ -1,38 +1,28 @@
 package com.example.justtest
 
 import io.appium.java_client.MobileElement
-import io.appium.java_client.TouchAction
-import io.appium.java_client.android.AndroidTouchAction
-import io.appium.java_client.touch.WaitOptions
-import io.appium.java_client.touch.offset.PointOption
-import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
-import org.openqa.selenium.By
-import java.time.Duration
 
 
 class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
+    @Before
+    override fun setup() {
+        AppiumAndroidConfig.driver.resetApp()
+        super.setup()
+    }
 
     @Test fun navigationTab() {
         AppiumAndroidConfig.gotoLogin()
         AppiumAndroidConfig.login(User.email, User.password)
-        val homeNavigationButton = AppiumAndroidConfig
-            .driver
-            .findElementById(
-                    "com.letshego.dasdigital:id/navigation_dashboard"
-            )
-        val exploreNavigationButton = AppiumAndroidConfig
-            .driver
-            .findElementById(
-                    "com.letshego.dasdigital:id/navigation_explore"
-            )
+        val homeNavigationButton = AppiumAndroidConfig.driver
+            .findElementById("com.letshego.dasdigital:id/navigation_dashboard")
 
+        val exploreNavigationButton = AppiumAndroidConfig.driver
+            .findElementById("com.letshego.dasdigital:id/navigation_explore")
 
-        val profileNavigationButton = AppiumAndroidConfig
-            .driver
-            .findElementById(
-                    "com.letshego.dasdigital:id/navigation_profile"
-            )
+        val profileNavigationButton = AppiumAndroidConfig.driver
+            .findElementById("com.letshego.dasdigital:id/navigation_profile")
 
         // got to explore
         exploreNavigationButton.click()
@@ -52,25 +42,104 @@ class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
 
     @Test
     fun checkEligibility() {
+        val getStartedButtonId = "tv_get_started"
+        val infoCardId = "card_one"
+        val recalculateEligibilityButton: MobileElement
+        val checkEligibilityButton: MobileElement
+        val borrowAmountField: MobileElement
+        val borrowAmountScroller: MobileElement
+        val checkQualificationButton: MobileElement?
+
         AppiumAndroidConfig.gotoLogin()
         AppiumAndroidConfig.login(User.email, User.password)
 
-        val borrowAmmountField: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/et_amount_seekbar")
+        if(AppiumAndroidConfig.findElementByIdOrNull("com.letshego.dasdigital:id/tv_secured") != null) {
+            recalculateEligibilityButton = AppiumAndroidConfig.driver
+                .findElementById("com.letshego.dasdigital:id/tv_recalculate_eligibility")
+            recalculateEligibilityButton.click()
+        } else {
+            checkEligibilityButton = AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/tv_check_eligibility")
+            borrowAmountField = AppiumAndroidConfig
+               .driver.findElementById("com.letshego.dasdigital:id/et_amount_seekbar")
+            val borrowAmountScroller = AppiumAndroidConfig
+                .driver
+                .findElementByXPath(
+                "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.SeekBar"
+                )
+            checkEligibilityButton.click()
+        }
 
-        val borrowAmmountScroller = AppiumAndroidConfig
-            .driver
-            .findElementByXPath(
-            "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.LinearLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.SeekBar"
-            )
+        val employmentTypeCard: MobileElement = AppiumAndroidConfig
+            .driver.findElementById("com.letshego.dasdigital:id/constraint_question_1")
 
-        val checkEligibilityButton: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/tv_check_eligibility")
+        val employerCard: MobileElement = AppiumAndroidConfig
+            .driver.findElementById("com.letshego.dasdigital:id/constraint_question_2")
+
+        val monthlySalaryCard: MobileElement = AppiumAndroidConfig
+            .driver.findElementById("com.letshego.dasdigital:id/constraint_question_3")
+
+         checkQualificationButton = AppiumAndroidConfig.findElementByIdOrNull("com.letshego.dasdigital:id/fab_check_eligibility")
+
+        employmentTypeCard.click()
+        AppiumAndroidConfig.await(1)
+
+        val employmentTypeList =  listOf<MobileElement>(
+            AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/radio_employed_ft"),
+            AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/radio_employed_pt"),
+            AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/radio_self_employed"),
+            AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/radio_unemployed"),
+            AppiumAndroidConfig
+                .driver.findElementById("com.letshego.dasdigital:id/radio_retired"),
+        )
+
+        // TODO: randomize selection
+        employmentTypeList[1].click()
+
+        // close the employment Type card
+        //employmentTypeCard.click()
+
+        employerCard.click()
+        val employerField: MobileElement = AppiumAndroidConfig
+            .driver.findElementById("com.letshego.dasdigital:id/actvEmployer")
+        AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/actvEmployer", "lets", false)
+
+        //AppiumAndroidConfig.touchAction(450, 760)
+        //AppiumAndroidConfig.await(5)
+
+        //println("employer: "+employerField.text)
+        //AppiumAndroidConfig.await(5)
+
+        //monthlySalaryCard.click()
+        //AppiumAndroidConfig.await(3)
+
+        //val salaryField: MobileElement = AppiumAndroidConfig
+        //    .driver.findElementById("com.letshego.dasdigital:id/et_salary")
+        //AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/et_salary", "1000000")
+
+
+        //AppiumAndroidConfig.await(10)
+
 
         // scroll down
-        AppiumAndroidConfig.driver
-            .findElementByAndroidUIAutomator(
-                "UiScrollable(UiSelector().scrollable(true).instance(0)).scrollIntoView(UiSelector().resourceId(\"ddddd\").instance(0))"
-            )
+        //AppiumAndroidConfig.driver
+        //    .findElementByAndroidUIAutomator(
+        //        "UiScrollable(UiSelector().scrollable(true).instance(0)).scrollIntoView(UiSelector().resourceId(\"$getStartedButtonId\").instance(0))"
+        //    ).center
+
+        //val getStartedButton: MobileElement = AppiumAndroidConfig
+        //    .driver.findElementById("com.letshego.dasdigital:id/$getStartedButtonId")
+        //AppiumAndroidConfig.await(1)
+
+        //AppiumAndroidConfig.driver
+        //    .findElementByAndroidUIAutomator(
+        //        "UiScrollable(UiSelector().scrollable(true).instance(0)).scrollIntoView(UiSelector().resourceId(\"$infoCardId\").instance(0))"
+        //    )
+        //val infoCard: MobileElement = AppiumAndroidConfig
+        //    .driver.findElementById("com.letshego.dasdigital:id/$infoCardId")
     }
 }

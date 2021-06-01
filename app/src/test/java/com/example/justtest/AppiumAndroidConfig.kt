@@ -1,10 +1,12 @@
 package com.example.justtest
 
 import io.appium.java_client.MobileElement
+import io.appium.java_client.PerformsTouchActions
+import io.appium.java_client.TouchAction
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.AndroidElement
+import io.appium.java_client.touch.offset.PointOption
 import org.junit.Assert
-import org.openqa.selenium.By
 import org.openqa.selenium.remote.CapabilityType
 import org.openqa.selenium.remote.DesiredCapabilities
 import java.lang.Exception
@@ -32,11 +34,19 @@ object AppiumAndroidConfig {
         }
     }
 
+    fun findElementByIdOrNull(elementId: String): MobileElement? {
+        return try {
+            driver.findElementById(elementId)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun gotoLogin() {
         val toLoginButton: MobileElement = AppiumAndroidConfig
             .driver.findElementById("com.letshego.dasdigital:id/tv_login")
         toLoginButton.click()
-        await(3)
+        await(5)
     }
 
     fun closeApp() {
@@ -49,28 +59,45 @@ object AppiumAndroidConfig {
 
     fun login(email: String, password: String, timeOut: Long = 10) {
         // Test Email field
-        val emailField: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/et_email_id")
+        val emailField: MobileElement = driver
+            .findElementById("com.letshego.dasdigital:id/et_email_id")
         emailField.click()
-        AppiumAndroidConfig.driver.keyboard.pressKey(email)
+        driver.keyboard.pressKey(email)
         Assert.assertEquals(emailField.text, email)
 
         // Test Password Field
-        val passwordField: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/et_password")
+        val passwordField: MobileElement = driver
+            .findElementById("com.letshego.dasdigital:id/et_password")
         passwordField.click()
-        AppiumAndroidConfig.driver.keyboard.pressKey(password)
+        driver.keyboard.pressKey(password)
         Assert.assertEquals(passwordField.text, password)
 
         // Hide the keyboard so we can reveal the login button to appium
-        AppiumAndroidConfig.driver.hideKeyboard()
-        val loginButton: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/fab_proceed")
+        driver.hideKeyboard()
+        val loginButton: MobileElement = driver
+            .findElementById("com.letshego.dasdigital:id/fab_proceed")
 
         // Test login process
         // only run if device connected to internet
         loginButton.click()
         await(timeOut)
+    }
+
+    fun enterText(fieldId: String, text: String, dismissKeyboard: Boolean = true) {
+        val field: MobileElement = driver.findElementById(fieldId)
+        field.click()
+        field.clear()
+        driver.keyboard.pressKey(text)
+        if (dismissKeyboard) {
+            driver.hideKeyboard()
+        }
+    }
+
+    fun touchAction(x: Int, y: Int) {
+        PlatformTouchAction(driver)
+            .tap(PointOption.point(x, y))
+            .release()
+            .perform()
     }
 
 
@@ -88,5 +115,8 @@ object AppiumAndroidConfig {
         driver.let {
             it.manage()?.timeouts()?.implicitlyWait(10, TimeUnit.SECONDS)
         }
-    }
+   }
+
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
 }
