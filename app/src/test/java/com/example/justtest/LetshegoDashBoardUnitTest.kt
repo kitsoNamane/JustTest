@@ -1,17 +1,10 @@
 package com.example.justtest
 
 import io.appium.java_client.MobileElement
-import org.junit.Before
 import org.junit.Test
 
 
 class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
-    @Before
-    override fun setup() {
-        AppiumAndroidConfig.driver.resetApp()
-        super.setup()
-    }
-
     @Test fun navigationTab() {
         AppiumAndroidConfig.gotoLogin()
         AppiumAndroidConfig.login(User.email, User.password)
@@ -106,23 +99,26 @@ class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
         employerCard.click()
         val employerField: MobileElement = AppiumAndroidConfig
             .driver.findElementById("com.letshego.dasdigital:id/actvEmployer")
+        employerField.click()
+        employerField.clear()
         AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/actvEmployer", "lets", false)
 
-        //AppiumAndroidConfig.touchAction(450, 760)
-        //AppiumAndroidConfig.await(5)
+        AppiumAndroidConfig.touchAction(450, 720)
+        AppiumAndroidConfig.driver.hideKeyboard()
+        AppiumAndroidConfig.await(10)
 
         //println("employer: "+employerField.text)
         //AppiumAndroidConfig.await(5)
 
-        //monthlySalaryCard.click()
+        monthlySalaryCard.click()
         //AppiumAndroidConfig.await(3)
 
-        //val salaryField: MobileElement = AppiumAndroidConfig
-        //    .driver.findElementById("com.letshego.dasdigital:id/et_salary")
-        //AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/et_salary", "1000000")
+        AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/et_salary", "1000000")
 
 
-        //AppiumAndroidConfig.await(10)
+
+        checkQualificationButton?.click()
+        AppiumAndroidConfig.await(10)
 
 
         // scroll down
