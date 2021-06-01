@@ -115,11 +115,8 @@ class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
 
         AppiumAndroidConfig.enterText("com.letshego.dasdigital:id/et_salary", "1000000")
 
-
-
         checkQualificationButton?.click()
         AppiumAndroidConfig.await(10)
-
 
         // scroll down
         //AppiumAndroidConfig.driver
