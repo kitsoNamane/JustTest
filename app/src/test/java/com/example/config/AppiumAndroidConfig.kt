@@ -30,7 +30,7 @@ object AppiumAndroidConfig {
         driver = AndroidDriver<AndroidElement>(url, capabilities)
 
         driver.let {
-            it.manage()?.timeouts()?.implicitlyWait(5, TimeUnit.SECONDS)
+            it.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
         }
     }
 
