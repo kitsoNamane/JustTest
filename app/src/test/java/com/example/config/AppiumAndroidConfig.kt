@@ -1,4 +1,4 @@
-package com.example.justtest
+package com.example.config
 
 import io.appium.java_client.MobileElement
 import io.appium.java_client.PerformsTouchActions
@@ -30,7 +30,7 @@ object AppiumAndroidConfig {
         driver = AndroidDriver<AndroidElement>(url, capabilities)
 
         driver.let {
-            it.manage()?.timeouts()?.implicitlyWait(10, TimeUnit.SECONDS)
+            it.manage()?.timeouts()?.implicitlyWait(5, TimeUnit.SECONDS)
         }
     }
 
@@ -43,9 +43,10 @@ object AppiumAndroidConfig {
     }
 
     fun gotoLogin() {
-        val toLoginButton: MobileElement = AppiumAndroidConfig
-            .driver.findElementById("com.letshego.dasdigital:id/tv_login")
-        toLoginButton.click()
+        //val toLoginButton: MobileElement = driver.findElementById("com.letshego.dasdigital:id/tv_login")
+        //toLoginButton.click()
+        val toLoginButton = findElementByIdOrNull("com.letshego.dasdigital:id/tv_login")
+        toLoginButton?.click()
         await(5)
     }
 
@@ -57,13 +58,18 @@ object AppiumAndroidConfig {
         driver.activateApp(bundleId)
     }
 
-    fun login(email: String, password: String, timeOut: Long = 10) {
+    fun login(email: String, password: String, timeOut: Long = 5) {
         // Test Email field
-        val emailField: MobileElement = driver
-            .findElementById("com.letshego.dasdigital:id/et_email_id")
-        emailField.click()
-        driver.keyboard.pressKey(email)
-        Assert.assertEquals(emailField.text, email)
+        //val emailField: MobileElement = driver
+        //    .findElementById("com.letshego.dasdigital:id/et_email_id")
+        //emailField.click()
+        val emailField = findElementByIdOrNull("com.letshego.dasdigital:id/et_email_id")
+
+        // We want to skip assertion if emailField is null.
+        emailField?.click()?.also {
+            driver.keyboard.pressKey(email)
+            Assert.assertEquals(emailField.text, email)
+        }
 
         // Test Password Field
         val passwordField: MobileElement = driver
@@ -74,13 +80,13 @@ object AppiumAndroidConfig {
 
         // Hide the keyboard so we can reveal the login button to appium
         driver.hideKeyboard()
-        val loginButton: MobileElement = driver
-            .findElementById("com.letshego.dasdigital:id/fab_proceed")
+        //val loginButton: MobileElement = driver
+        //    .findElementById("com.letshego.dasdigital:id/fab_proceed")
 
         // Test login process
         // only run if device connected to internet
-        loginButton.click()
-        await(timeOut)
+        //loginButton.click()
+        //await(timeOut)
     }
 
     fun enterText(fieldId: String, text: String, dismissKeyboard: Boolean = true) {
@@ -102,18 +108,17 @@ object AppiumAndroidConfig {
 
 
     // [await] gives me time for asynchronous event to finish loading
-    fun await(timeOut: Long = 10) {
+    fun await(timeOut: Long = 5) {
         driver.let {
             it.manage()?.timeouts()?.implicitlyWait(timeOut, TimeUnit.SECONDS)
         }
         try {
            driver.findElementById("com.letshego.dasdigital:id/testing_block")
         } catch (e: Exception) {
-            println("I'm just waiting for the output")
         }
         // Reset back to default
         driver.let {
-            it.manage()?.timeouts()?.implicitlyWait(10, TimeUnit.SECONDS)
+            it.manage()?.timeouts()?.implicitlyWait(5, TimeUnit.SECONDS)
         }
    }
 

@@ -1,9 +1,10 @@
 package com.example.justtest
 
+import com.example.config.AppiumAndroidConfig
+import com.example.testdata.User
 import io.appium.java_client.MobileElement
 import org.junit.Assert
 import org.junit.Test
-import org.openqa.selenium.By
 import java.lang.Exception
 
 class LetshegoLoginUnitTest : LetshegoBaseUnitTest() {

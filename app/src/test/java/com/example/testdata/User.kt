@@ -1,4 +1,4 @@
-package com.example.justtest
+package com.example.testdata
 
 object User {
     const val email: String = "kitsontest@yopmail.com"

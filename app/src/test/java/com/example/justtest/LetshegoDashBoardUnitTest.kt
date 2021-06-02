@@ -1,5 +1,7 @@
 package com.example.justtest
 
+import com.example.config.AppiumAndroidConfig
+import com.example.testdata.User
 import io.appium.java_client.MobileElement
 import org.junit.Test
 

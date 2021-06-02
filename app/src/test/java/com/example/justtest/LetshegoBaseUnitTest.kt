@@ -1,5 +1,6 @@
 package com.example.justtest
 
+import com.example.config.AppiumAndroidConfig
 import org.junit.After
 import org.junit.Before
 
