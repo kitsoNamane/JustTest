@@ -1,4 +1,5 @@
-Feature:
+@Eligibility
+Feature: Loan Eligibility
   Scenario: User Loan Eligibility
     Given I'm on the Dashboard screen
     And I have not calculated my loan eligibility

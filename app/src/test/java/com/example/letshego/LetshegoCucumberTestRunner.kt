@@ -9,8 +9,9 @@ import org.junit.runner.RunWith
 @RunWith(Cucumber::class)
 @CucumberOptions(
     features = ["classpath:features/LetshegoLogin.feature",
-        "classpath:features/LetshegoLoanEligibility.feaure"],
+        "classpath:features/LetshegoLoanEligibility.feature"],
     glue = ["com.example.letshego"],
+    //tags = "@Login, @LoanEligibility",
     plugin = ["pretty"])
 class LetshegoCucumberTestRunner {
 }

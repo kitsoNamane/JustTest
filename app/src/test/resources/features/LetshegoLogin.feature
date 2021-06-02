@@ -1,4 +1,5 @@
-Feature:
+@Login
+Feature: Login
   Scenario: User Login
     Given I go to the Onboarding screen
     And I input email and password
