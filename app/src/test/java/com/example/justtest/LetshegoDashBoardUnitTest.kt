@@ -38,11 +38,11 @@ class LetshegoDashBoardUnitTest : LetshegoBaseUnitTest() {
     @Test
     fun checkEligibility() {
         val getStartedButtonId = "tv_get_started"
+        val borrowAmountScroller: MobileElement
+        val borrowAmountField: MobileElement
         val infoCardId = "card_one"
         val recalculateEligibilityButton: MobileElement
         val checkEligibilityButton: MobileElement
-        val borrowAmountField: MobileElement
-        val borrowAmountScroller: MobileElement
         val checkQualificationButton: MobileElement?
 
         AppiumAndroidConfig.gotoLogin()

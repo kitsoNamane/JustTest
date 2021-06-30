@@ -1,5 +1,6 @@
 package com.example.steps
 
+import android.util.Log
 import com.example.config.AppiumAndroidConfig
 import com.example.justtest.LoginWorkFlow
 import com.example.testdata.User
@@ -8,7 +9,7 @@ import org.junit.Assert
 
 class LetshegoLoginSteps : En {
     init {
-        Given("I go to the Onboarding screen") {
+        Given("I'm on the Onboarding screen") {
             LoginWorkFlow.goToLoginScreen()
         }
         And("I input email and password") {
@@ -21,10 +22,22 @@ class LetshegoLoginSteps : En {
             LoginWorkFlow.validateLogin()
         }
 
-        //AppiumAndroidConfig.driver.closeApp()
-        AppiumAndroidConfig.driver.resetApp()
+        //! Logout user
+        Given("I'm on the profile screen") {
+            LoginWorkFlow.goToProfileScreen()
+        }
+        And("I press the logout button") {
+            LoginWorkFlow.presslogOutButton()
+        }
+        And("I press confirm logout button") {
+            LoginWorkFlow.confirmLogOut()
+        }
+        Then("I should end up at the Onboarding screen") {
+            LoginWorkFlow.validateLogOut()
+        }
 
-        Given("Invalid user goes to the Onboarding screen") {
+        //! Invalid User Login
+        Given("Invalid user is on the Onboarding screen") {
             AppiumAndroidConfig.await(3)
             AppiumAndroidConfig.gotoLogin()
 
@@ -56,5 +69,7 @@ class LetshegoLoginSteps : En {
                 .lowercase().contains(requiredActivityName)
             Assert.assertTrue(isOnRequiredScreen)
         }
+
+
     }
 }
