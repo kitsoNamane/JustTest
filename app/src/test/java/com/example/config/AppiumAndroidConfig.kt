@@ -9,6 +9,8 @@ import io.appium.java_client.touch.offset.PointOption
 import org.junit.Assert
 import org.openqa.selenium.remote.CapabilityType
 import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.TimeUnit
@@ -30,7 +32,18 @@ object AppiumAndroidConfig {
         driver = AndroidDriver<AndroidElement>(url, capabilities)
 
         driver.let {
-            it.manage()?.timeouts()?.implicitlyWait(5, TimeUnit.SECONDS)
+            it.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
+        }
+    }
+
+    fun waitToFindElementOrNull(elementId: String): MobileElement? {
+        return try {
+            val element = driver.findElementById(elementId)
+            val wait = WebDriverWait(driver, 15)
+            wait.until(ExpectedConditions.visibilityOf(element))
+            element
+        } catch (e: Exception) {
+            null
         }
     }
 

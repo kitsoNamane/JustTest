@@ -1,5 +1,6 @@
-@Eligibility
 Feature: Loan Eligibility
+  Background: Successful Loggin
+    Given I log in successfully
   Scenario: User Loan Eligibility
     Given I'm on the Dashboard screen
     And I have not calculated my loan eligibility
